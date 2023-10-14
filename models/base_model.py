@@ -34,6 +34,9 @@ class BaseModel:
                     self.id = str(uuid4())
                     self.created_at = datetime.today()
 
+        if not kwargs or "__class__" not in kwargs:
+            models.storage.new(self)
+
     def __str__(self):
         """Prints in stdout string representation of the BaseModel"""
         class_name = self.__class__.__name__
@@ -43,6 +46,7 @@ class BaseModel:
         """Updates public instance attribute updated_at
            with current datetime"""
         self.updated_at = datetime.today()
+        models.storage.save()
 
     def to_dict(self):
         """Returns dictionary containing all keys/values of
