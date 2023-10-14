@@ -33,7 +33,6 @@ class BaseModel:
                 else:
                     self.id = str(uuid4())
                     self.created_at = datetime.today()
-                    self.updated_at = datetime.today()
 
     def __str__(self):
         """Prints in stdout string representation of the BaseModel"""
