@@ -4,7 +4,7 @@
 
 from uuid import uuid4
 from datetime import datetime
-import models import storage
+import models
 
 
 class BaseModel:
@@ -35,7 +35,7 @@ class BaseModel:
                     self.created_at = datetime.today()
 
         if not kwargs or "__class__" not in kwargs:
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """Prints in stdout string representation of the BaseModel"""
@@ -46,7 +46,7 @@ class BaseModel:
         """Updates public instance attribute updated_at
            with current datetime"""
         self.updated_at = datetime.today()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """Returns dictionary containing all keys/values of
