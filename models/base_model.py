@@ -31,7 +31,8 @@ class BaseModel:
                     else:
                         self.__dict__[key] = value
                 else:
-                    models.storage.new(self)
+                    if not kwargs or "__class__" not in kwargs:
+                        models.storage.new(self)
 
     def __str__(self):
         """Prints in stdout string representation of the BaseModel"""
