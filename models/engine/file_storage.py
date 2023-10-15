@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Declaring class FileStorage that serializes instances 
+"""Declaring class FileStorage that serializes instances
    to a JSON file and deserializes JSON file to instances.
 """
 
@@ -24,7 +24,6 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-
     def all(self):
         """Returns the dictionary __objects"""
         return self.__objects
@@ -44,7 +43,7 @@ class FileStorage:
             json.dump(obj_dict, file, default=str)
 
     def reload(self):
-        """Deserializes the JSON file to __objects 
+        """Deserializes the JSON file to __objects
            (only if the JSON file (__file_path) exists
         """
         try:
