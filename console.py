@@ -6,12 +6,18 @@ import json
 from models.base_model import BaseModel
 from models import storage
 from shlex import split
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """Defines the HBNB command interpreter."""
 
     prompt = "(hbnb) "
+
+    __classes = {
+        "BaseModel",
+        "User"
+    }
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
