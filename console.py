@@ -15,6 +15,31 @@ from models.place import Place
 from models.review import Review
 
 
+def character(arg):
+    curly_brackets = re.search(r"\{(.*?)\}", arg)
+    square_brackets = re.search(r"\[(.*?)\]", arg)
+    round_brackets = re.search(r"\((.*?)\)", arg)
+    if curly_brackets is None:
+        if square_brackets is None:
+            if round_brackets is None:
+                return [char.strip(",") for char in split(arg)]
+            else:
+                char_tok = split(arg[:round_brackets.span()[0]])
+                com_tok = [c.strip(",") for c in char_tok]
+                com_tok.append(round_brackets.group())
+                return com_tok
+        else:
+            char_tok = split(arg[:square_brackets.span()[0]])
+            com_tok = [c.strip(",") for c in char_tok]
+            com_tok.append(square_brackets.group())
+            return com_tok
+    else:
+        char_tok = split(arg[:curly_brackets.span()[0]])
+        com_tok = [c.strip(",") for c in char_tok]
+        com_tok.append(curly_brackets.group())
+        return com_tok
+
+
 class HBNBCommand(cmd.Cmd):
     """Defines the HBNB command interpreter."""
 
@@ -43,6 +68,27 @@ class HBNBCommand(cmd.Cmd):
         """An empty line does not execute anything"""
         pass
 
+    def default(self, arg):
+        """Handle specified commands and invalid input."""
+        arg_dict = {
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "all": self.do_all,
+            "update": self.do_update,
+            "count": self.do_count
+        }
+        valid = re.search(r"\.", arg)
+        if valid is not None:
+            arg_tok = [arg[:valid.span()[0]], arg[valid.span()[1]:]]
+            valid = re.search(r"\((.*?)\)", arg_tok[1])
+            if valid is not None:
+                cmd = [arg_tok[0], valid.group()[1:-1]]
+                if cmd[0] in arg_dict.keys():
+                    call = "{} {}".format(arg_tok[0], cmd[1])
+                    return arg_dict[cmd[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
+
     def do_create(self, arg):
         """Creates a new instance of BaseModel, saves it
            (to the JSON file) and prints the id.
@@ -61,16 +107,17 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance
            based on the class name and id.
         """
-        if not arg:
+        arg_list = character(arg)
+        if not arg_list:
             print("** class name missing **")
-        elif arg.split()[0] not in HBNBCommand.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(arg.split()) == 1:
+        elif len(arg_list) == 1:
             print("** instance id missing **")
         else:
-            instance_key = "{}.{}".format(arg.split()[0], arg.split()[1])
+            instance_key = "{}.{}".format(arg_list[0], arg_list[1])
             if instance_key not in storage.all():
-                print("** instance id missing **")
+                print("** no instance found **")
             else:
                 print(storage.all()[instance_key])
 
@@ -97,21 +144,17 @@ class HBNBCommand(cmd.Cmd):
            or not on the class name.
         """
         obj_list = []
-        if arg.split()[0] not in HBNBCommand.__classes:
+        arg_list = character(arg)
+        if len(arg_list) > 0 and arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             for key, value in storage.all().items():
                 class_name, instance_id = key.split('.')
-                if not arg or arg == class_name or \
-                        arg == value.__class__.__name__:
+                if len(arg_list) > 0 and arg_list[0] == class_name:
+                    obj_list.append(str(value))
+                elif len(arg_list) == 0:
                     obj_list.append(str(value))
             print(obj_list)
-
-        if not arg and "BaseModel" not in obj_list:
-            base_model_instance = BaseModel()
-            obj_list.append(str(base_model_instance))
-            storage.save()
-        print(obj_list)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id by
