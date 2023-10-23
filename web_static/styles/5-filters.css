@@ -6,7 +6,6 @@
     border-radius: 4px;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
     text-align: right;
 }
 
@@ -27,18 +26,22 @@
 
 .locations,
 .amenities {
+    text-align: left;
     height: 100%;
     width: 25%;
     border-right: 1px solid #DDDDDD;
     margin-left: 30px;
-    text-align: left;
     float: left;
 }
 
 h3{
     font-weight: 600;
+    margin: 0px;
+    padding: 0px;
 }
 h4{
     font-weight: 400;
     font-size: 14px;
+    margin: 0px;
+    padding: 0px;
 }
