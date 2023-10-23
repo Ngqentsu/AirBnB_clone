@@ -5,7 +5,7 @@
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     display: flex;
-    justify-content: flex;
+    justify-content: flex-end;
     text-align: right;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .filters button:hover {
-    opacity: 90%;
+    opacity: 0.9;
 }
 
 .locations,
