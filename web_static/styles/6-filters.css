@@ -34,6 +34,7 @@
     border-right: 1px solid #DDDDDD;
     margin-left: 30px;
     float: left;
+    align-content: flex-start;
 }
 
 h3{
@@ -41,30 +42,33 @@ h3{
     margin: 0px;
     padding: 0px;
     margin-top: 15px;
+    padding-left: 30px;
 }
 h4{
     font-weight: 400;
     font-size: 14px;
     margin: 0px;
     padding: 0px;
+    padding-left: 30px;
 }
 
 .popover{
     visibility: hidden;
     position: relative;
+    margin-top: 0%;
     background-color: #FAFAFA;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     padding: 0;
     z-index: 1;
     list-style: none;
-    left: 30px;
+    padding-bottom: 10%;
 }
 .popover li h2{
     padding: 0;
     margin: 0;
 }
-.popover_list{
+.popover_cities{
     padding: 0px;
     margin: 0px;
     padding-left: 10%;
