@@ -51,13 +51,14 @@ h4{
 
 .popover{
     visibility: hidden;
-    position: absolute;
+    position: relative;
     background-color: #FAFAFA;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     padding: 0;
     z-index: 1;
     list-style: none;
+    left: 30px;
 }
 .popover li h2{
     padding: 0;
